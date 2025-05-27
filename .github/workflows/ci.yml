@@ -1,0 +1,22 @@
+name: CI with Docker
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  docker-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t my-python-app:0.0.1 .
+
+      - name: Run container and execute tests
+        run: docker run -d -p 8080:8080 my-python-app:0.0.1
+
